@@ -1,6 +1,6 @@
 # NIKAHFIX
 
-**NIKAHFIX** adalah sebuah website undangan pernikahan yang terinspirasi dari tampilan _Netflix_, memberikan pengalaman visual menarik dan modern untuk pengguna. Proyek ini dibangun menggunakan **React** dengan bundler **Vite**, dilengkapi dengan **Supabase** untuk mengelola data undangan, serta dirancang agar mudah diakses, responsif, dan estetis.
+**NIKAHFIX** adalah sebuah website undangan pernikahan yang terinspirasi dari tampilan _Netflix_, memberikan pengalaman visual menarik dan modern untuk pengguna. Proyek ini dibangun menggunakan **React** dengan bundler **Vite**, dirancang agar mudah diakses, responsif, dan estetis.
 
 ## Demo
 
@@ -12,7 +12,7 @@ Jika anda memiliki tujuan spesifik undangannya, bisa dibuat link seperti berikut
 - **React**: Library JavaScript untuk membangun antarmuka pengguna.
 - **Vite**: Bundler modern untuk pengembangan aplikasi web cepat dengan konfigurasi minimal.
 - **TailwindCSS**: Untuk mendesain tampilan visual agar lebih menarik.
-- **Supabase**: Backend sebagai layanan untuk autentikasi, database, dan API real-time.
+- **LocalStorage**: Untuk menyimpan data wish/ucapan secara lokal di browser.
 - **Vercel**: Platform hosting yang digunakan untuk menyajikan demo.
 
 ## Instalasi
@@ -42,51 +42,22 @@ Berikut adalah langkah-langkah untuk menginstal proyek ini di lingkungan lokal A
 
    `http://localhost:5173`
 
----
+## Fitur Wish/Ucapan
 
-# Integrasi Supabase di NIKAHFIX
-
-NIKAHFIX menggunakan **Supabase** untuk mengelola data undangan pernikahan, seperti informasi tamu, pesan, dan acara. Supabase menyediakan layanan **auth**, **database**, dan **storage** untuk membangun aplikasi secara cepat dan efisien.
-
-## Langkah-langkah Integrasi Supabase
-
-### 1. Mendaftar ke Supabase
-
-- Kunjungi [Supabase](https://supabase.io) dan buat akun, kemudian buat proyek baru.
-- Setelah proyek dibuat, Anda akan mendapatkan URL dan **anon key** untuk mengakses Supabase.
-
-### 2. Menambahkan Variabel Lingkungan (Environment Variables)
-
-Untuk menyimpan kredensial Supabase, buat file `.env` di root proyek dan tambahkan variabel berikut:
-
-```
-VITE_APP_SUPABASE_ANON_KEY=your-anon-key
-VITE_APP_SUPABASE_URL=https://your-project-url.supabase.co
-VITE_APP_TABLE_NAME=your-table-name
-```
-
-Gantilah `your-anon-key`, `your-project-url.supabase.co`, dan `your-table-name` sesuai dengan kredensial proyek Supabase Anda.
-
-### 3. Menginstal Supabase Client
-
-Pasang dependensi Supabase untuk React:
-
-```bash
-npm install @supabase/supabase-js
-```
+Aplikasi ini dilengkapi dengan fitur wish atau ucapan untuk pasangan pengantin yang:
+- Menyimpan data secara lokal menggunakan localStorage browser
+- Validasi input nama minimal 3 karakter dan pesan minimal 10 karakter  
+- Filter kata kasar menggunakan library indonesian-badwords
+- Tampilan yang menarik dengan avatar berwarna acak untuk setiap ucapan
+- Data persist ketika browser di-refresh
 
 ## Struktur Proyek
 
-Berikut adalah struktur direktori proyek yang telah terintegrasi dengan Supabase:
+Berikut adalah struktur direktori proyek:
 
-- `src/` - Berisi komponen utama, logika aplikasi, dan konfigurasi Supabase.
-  - `supabaseClient.js` - File konfigurasi Supabase.
-  - `App.js` - Komponen utama aplikasi.
+- `src/` - Berisi komponen utama dan logika aplikasi.
+  - `components/` - Komponen React yang dapat digunakan kembali.
+  - `data/` - File konfigurasi JSON untuk data undangan.
 - `public/` - Berisi aset-aset statis, seperti gambar dan ikon.
-- `.env` - Berisi variabel lingkungan untuk kredensial Supabase.
-
-## Kesimpulan
-
-Dengan mengintegrasikan Supabase, Anda dapat dengan mudah mengelola data undangan pernikahan seperti tamu, pesan, dan acara menggunakan Supabase sebagai backend. Anda juga dapat memanfaatkan fitur autentikasi Supabase untuk memungkinkan tamu RSVP atau mengakses halaman pribadi.
 
 ---

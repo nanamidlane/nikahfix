@@ -1,5 +1,4 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import supabase from '../../../lib/supabaseClient';
 import badwords from 'indonesian-badwords';
 
 const WishItem = forwardRef(({ name, message, color }, ref) => (
@@ -35,7 +34,7 @@ export default function WishSection() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (name.length < 3) {
@@ -59,33 +58,39 @@ export default function WishSection() {
     // random color based data length
     const randomColor = colorList[data.length % colorList.length];
     const newmessage = badwords.censor(message);
-    const { error } = await supabase
-      .from(import.meta.env.VITE_APP_TABLE_NAME) // Replace with your actual table name
-      .insert([
-        { name, message: newmessage, color: randomColor }, // Assuming your table has a "name" column
-      ]);
+    
+    // Create new wish object
+    const newWish = { 
+      name, 
+      message: newmessage, 
+      color: randomColor,
+      id: Date.now() // Simple ID generation
+    };
+
+    // Add to local state
+    const updatedData = [...data, newWish];
+    setData(updatedData);
+    
+    // Store in localStorage for persistence
+    localStorage.setItem('nikahfix-wishes', JSON.stringify(updatedData));
 
     setLoading(false);
-
-    if (error) {
-      setError(error.message);
-    } else {
-      //scroll to .wish-container last child
-
-      fetchData();
-      setTimeout(scrollToLastChild, 500);
-      setName('');
-      setMessage('');
-    }
+    
+    // Scroll to last child and reset form
+    setTimeout(scrollToLastChild, 500);
+    setName('');
+    setMessage('');
   };
 
-  const fetchData = async () => {
-    const { data, error } = await supabase
-      .from(import.meta.env.VITE_APP_TABLE_NAME) // Replace 'your_table' with the actual table name
-      .select('name, message, color');
-
-    if (error) console.error('Error fetching data: ', error);
-    else setData(data);
+  const loadWishes = () => {
+    try {
+      const savedWishes = localStorage.getItem('nikahfix-wishes');
+      if (savedWishes) {
+        setData(JSON.parse(savedWishes));
+      }
+    } catch (error) {
+      console.error('Error loading wishes from localStorage:', error);
+    }
   };
 
   const scrollToLastChild = () => {
@@ -95,7 +100,7 @@ export default function WishSection() {
   };
 
   useEffect(() => {
-    fetchData();
+    loadWishes();
   }, []);
 
   return (
