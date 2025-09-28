@@ -46,7 +46,7 @@ export default function DetailInfo() {
             Lihat Lokasi
           </a>
         </div>
-        {data.show_menu.wish && import.meta.env.VITE_APP_TABLE_NAME ? (
+        {data.show_menu.wish ? (
           <WishSection />
         ) : null}
       </div>
